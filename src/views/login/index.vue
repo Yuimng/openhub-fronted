@@ -9,7 +9,7 @@
         <div class="login-sub-title">欢迎{{ isLogin ? '登录' : '注册' }}</div>
         <transition name="ming" mode="out-in">
           <div v-if="isLogin">
-            <login-form></login-form>
+            <login-form ref="loginRef"></login-form>
           </div>
           <div v-else>
             <register-form></register-form>
@@ -28,13 +28,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import LoginForm from './components/login-form.vue'
 import RegisterForm from './components/register-form.vue'
 
 const isLogin = ref(true)
 
+const loginRef = ref<InstanceType<typeof LoginForm>>()
+
 const handleSubmitClick = () => {
-  console.log('submit!')
+  if (isLogin.value) {
+    loginRef.value?.loginAction()
+  }
 }
 </script>
 
