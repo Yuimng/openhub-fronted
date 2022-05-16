@@ -1,5 +1,5 @@
 <template>
-  <div>主页面</div>
+  <div class="custom-card">工作台</div>
 </template>
 
 <script setup lang="ts"></script>

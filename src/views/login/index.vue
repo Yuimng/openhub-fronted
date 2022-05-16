@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="left-image">
-      <img src="@/assets/images/reading-side.svg" alt="laying" />
+      <img src="@/assets/images/Watermelon_Monochromatic.svg" alt="laying" />
     </div>
     <div class="content">
       <div class="login-wrapper">
@@ -50,7 +50,7 @@ const handleSubmitClick = () => {
   .left-image {
     display: flex;
     align-items: center;
-    background: #f2f3f5;
+    background: #e7e7e7;
     img {
       max-width: 700px;
       padding: 70px;

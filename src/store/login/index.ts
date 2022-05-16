@@ -12,7 +12,12 @@ export const useLoginStore = defineStore({
   id: 'login',
   state: (): ILoginState => ({
     token: '',
-    userInfo: {}
+    userInfo: {
+      id: 0,
+      name: '',
+      avatar_url: null,
+      momentCount: 0
+    }
   }),
   getters: {},
   actions: {
@@ -39,7 +44,7 @@ export const useLoginStore = defineStore({
           type: 'success'
         })
         // 3.跳到首页
-        router.push('/main')
+        router.push('/main/discover')
       } else {
         ElMessage({
           message: loginResult.msg,

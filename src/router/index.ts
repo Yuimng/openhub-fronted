@@ -1,15 +1,25 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { RouteRecordRaw } from 'vue-router'
 
 import localCache from '@/utils/cache'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/main'
+    redirect: '/main/discover'
   },
   {
     path: '/main',
-    component: () => import('../views/main/Main.vue')
+    component: () => import('../views/main/index.vue'),
+    children: [
+      {
+        path: '/main/discover',
+        component: () => import('../views/main/discover/index.vue')
+      },
+      {
+        path: '/main/workspace',
+        component: () => import('../views/main/workspace/index.vue')
+      }
+    ]
   },
   {
     path: '/login',
@@ -19,7 +29,7 @@ const routes: RouteRecordRaw[] = [
 
 const router = createRouter({
   routes,
-  history: createWebHashHistory()
+  history: createWebHistory()
 })
 
 router.beforeEach((to) => {
