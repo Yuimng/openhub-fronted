@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="formRef" :model="account" :rules="rules">
+  <el-form ref="loginFormRef" :model="account" :rules="rules">
     <el-form-item prop="name">
       <el-input
         v-model="account.name"
@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { User as UserIcon, Lock as LockIcon } from '@element-plus/icons-vue'
-import { ElForm } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import { reactive, ref } from 'vue'
 import rules from '../config/account-config'
 import localCache from '@/utils/cache'
@@ -40,12 +40,12 @@ const account = reactive({
   password: localCache.getCache('password') ?? ''
 })
 
-const formRef = ref<InstanceType<typeof ElForm>>()
+const loginFormRef = ref<FormInstance>()
 
 const isKeepPassword = ref(true)
 
 const loginAction = () => {
-  formRef.value?.validate((valid) => {
+  loginFormRef.value?.validate((valid) => {
     if (valid) {
       // 1.判断是否记住密码
       if (isKeepPassword.value) {

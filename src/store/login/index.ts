@@ -2,7 +2,11 @@ import { defineStore } from 'pinia'
 import { store } from '@/store'
 import { ILoginState } from './type'
 import { IAccount } from '@/service/login/type'
-import { accountLoginRequest, requestUserInfoById } from '@/service/login'
+import {
+  accountLoginRequest,
+  requestUserInfoById,
+  accountRegisterRequest
+} from '@/service/login'
 import localCache from '@/utils/cache'
 import router from '@/router'
 import 'element-plus/es/components/message/style/css'
@@ -64,6 +68,26 @@ export const useLoginStore = defineStore({
       const userInfo = localCache.getCache('userInfo')
       if (userInfo) {
         this.userInfo = userInfo
+      }
+    },
+    /**
+     *
+     * @description 账号登录
+     */
+    async accountRegisterAction(payload: IAccount): Promise<boolean> {
+      const registerResult = await accountRegisterRequest(payload)
+      if (registerResult.code == 200) {
+        ElMessage({
+          message: registerResult.msg,
+          type: 'success'
+        })
+        return true
+      } else {
+        ElMessage({
+          message: registerResult.msg,
+          type: 'error'
+        })
+        return false
       }
     }
   }

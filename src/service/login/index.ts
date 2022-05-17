@@ -4,7 +4,8 @@ import { IAccount, ILoginResult, IUserInfo } from './type'
 
 enum LoginAPI {
   AccountLogin = '/login',
-  LoginUserInfo = '/users/'
+  LoginUserInfo = '/users/',
+  AccountRegister = '/users'
 }
 
 export function accountLoginRequest(account: IAccount) {
@@ -18,6 +19,14 @@ export function accountLoginRequest(account: IAccount) {
 export function requestUserInfoById(id: number) {
   return ymRequest.get<IDataType<IUserInfo>>({
     url: LoginAPI.LoginUserInfo + id,
+    showLoading: false
+  })
+}
+
+export function accountRegisterRequest(account: IAccount) {
+  return ymRequest.post<IDataType>({
+    url: LoginAPI.AccountRegister,
+    data: account,
     showLoading: false
   })
 }

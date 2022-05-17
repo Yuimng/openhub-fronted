@@ -12,7 +12,10 @@
             <login-form ref="loginRef"></login-form>
           </div>
           <div v-else>
-            <register-form></register-form>
+            <register-form
+              ref="registerRef"
+              @go-login="handleGoLogin"
+            ></register-form>
           </div>
         </transition>
         <el-button type="primary" class="login-btns" @click="handleSubmitClick">
@@ -35,11 +38,18 @@ import RegisterForm from './components/register-form.vue'
 const isLogin = ref(true)
 
 const loginRef = ref<InstanceType<typeof LoginForm>>()
+const registerRef = ref<InstanceType<typeof RegisterForm>>()
 
 const handleSubmitClick = () => {
   if (isLogin.value) {
     loginRef.value?.loginAction()
+  } else {
+    registerRef.value?.registerAction()
   }
+}
+
+const handleGoLogin = (registerFlag: boolean) => {
+  isLogin.value = registerFlag
 }
 </script>
 
