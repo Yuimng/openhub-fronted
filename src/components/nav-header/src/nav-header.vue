@@ -6,7 +6,7 @@
         <h1 class="nav-logo_title">OPENHUB</h1>
       </div>
       <el-menu
-        default-active="/main/discover"
+        :default-active="defaultValue"
         mode="horizontal"
         router
         class="custom-memu"
@@ -39,14 +39,18 @@
 
 <script setup lang="ts">
 import localCache from '@/utils/cache'
-import { useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { computed, ref } from 'vue'
 import { useLoginStoreWithOut } from '@/store/login'
 
 const userLoginStore = useLoginStoreWithOut()
 const avatar_url = computed(() => userLoginStore.userInfo.avatar_url)
 
 const router = useRouter()
+
+// 刷新页面可获取当前路径
+const currentPath = useRoute().path
+const defaultValue = ref(currentPath)
 
 const handleExitClick = () => {
   localCache.deleteCache('token')
