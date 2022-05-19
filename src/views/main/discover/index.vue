@@ -1,7 +1,9 @@
 <template>
-  <div class="custom-card">发现页</div>
+  <moment-item></moment-item>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import MomentItem from '@/components/moment-item'
+</script>
 
 <style lang="less" scoped></style>
