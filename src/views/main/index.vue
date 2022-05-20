@@ -7,7 +7,9 @@
       <router-view></router-view>
     </div>
     <div class="aside-column">
-      <user-info></user-info>
+      <el-affix :offset="10">
+        <user-info></user-info>
+      </el-affix>
     </div>
   </div>
 </template>
