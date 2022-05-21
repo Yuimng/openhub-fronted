@@ -15,7 +15,7 @@
         <div class="moment-title">
           <span class="moment-title__text">{{ itemData.author.name }}</span>
         </div>
-        <div class="moment-time">{{ itemData.updateTime }}</div>
+        <div class="moment-time">{{ $relativeTime(itemData.updateTime) }}</div>
       </div>
       <div class="moment-item__body">
         <div class="moment-content">
