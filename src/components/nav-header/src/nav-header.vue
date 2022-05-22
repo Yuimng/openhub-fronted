@@ -54,7 +54,7 @@ const defaultValue = ref(currentPath)
 
 const handleExitClick = () => {
   localCache.deleteCache('token')
-  router.push('/main/workspace')
+  router.push('/login')
 }
 </script>
 
