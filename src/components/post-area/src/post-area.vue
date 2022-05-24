@@ -4,7 +4,7 @@
       <el-form :model="form" class="post-text">
         <el-form-item>
           <el-input
-            v-model="form.desc"
+            v-model="form.content"
             type="textarea"
             placeholder="快来发表你此刻的想法吧~"
             :autosize="{ minRows: 3, maxRows: 5 }"
@@ -24,13 +24,20 @@
 import { reactive } from 'vue'
 
 const form = reactive({
-  desc: ''
+  content: ''
 })
 
+const emits = defineEmits(['submitContent'])
+
 const onSubmit = () => {
-  console.log('submit!')
-  console.log(form.desc)
+  emits('submitContent', form.content)
 }
+
+const clearContent = () => {
+  form.content = ''
+}
+
+defineExpose({ clearContent })
 </script>
 
 <style lang="less" scoped>

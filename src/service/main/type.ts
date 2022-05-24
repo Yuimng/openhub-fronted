@@ -36,3 +36,7 @@ export interface MomentUserObject {
   userInfo: UserInfo
   momentUserList: MomentUserResult[]
 }
+
+export interface IContent {
+  content: string
+}
