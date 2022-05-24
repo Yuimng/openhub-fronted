@@ -1,6 +1,6 @@
 import { MomentResult, MomentUserResult } from '@/service/main/type'
 
 export interface IMainState {
-  MomentList: Array<Array<MomentResult>>
+  MomentList: Array<MomentResult>
   MomentUserList: Array<MomentUserResult>
 }

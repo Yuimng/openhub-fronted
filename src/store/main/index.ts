@@ -15,19 +15,14 @@ export const useMainStore = defineStore({
      *
      * @description 获取动态列表数据
      */
-    async getMomentListAction(offset: number): Promise<boolean> {
+    async getMomentListAction(offset: number, size: number) {
       // 获取数据
-      const result = await getMomentList(offset)
+      const result = await getMomentList(offset, size)
       if (result.code == 200) {
-        if (result.data.length !== 0) {
-          // 注意数组数据要扁平化处理
-          this.MomentList.push(result.data)
-          return true
-        } else {
-          return false
+        const tempArr = result.data
+        for (const item of tempArr) {
+          this.MomentList.push(item)
         }
-      } else {
-        return false
       }
     },
     /**
@@ -49,6 +44,7 @@ export const useMainStore = defineStore({
       }
     },
     clearList() {
+      this.MomentList = []
       this.MomentUserList = []
     }
   }
