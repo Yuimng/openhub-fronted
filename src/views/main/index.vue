@@ -12,6 +12,7 @@
       </el-affix>
     </div>
   </div>
+  <el-backtop :right="50" :bottom="50" />
 </template>
 
 <script setup lang="ts">
