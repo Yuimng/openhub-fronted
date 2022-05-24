@@ -14,3 +14,25 @@ export interface MomentResult {
   labelCount: number
   images: string[]
 }
+
+export interface UserInfo {
+  id: number
+  name: string
+  avatar_url: string
+  momentCount: number
+}
+
+export interface MomentUserResult {
+  id: number
+  content: string
+  createTime: Date
+  updateTime: Date
+  commentCount: number
+  labelCount: number
+  images: string[]
+}
+
+export interface MomentUserObject {
+  userInfo: UserInfo
+  momentUserList: MomentUserResult[]
+}
