@@ -17,7 +17,7 @@ export function getMomentListByUserId(
   size: number
 ) {
   return ymRequest.get<IDataType<MomentUserObject>>({
-    url: `/moment/${userId}?offset=${offset}&size=${size}`,
+    url: `/moment/user/${userId}?offset=${offset}&size=${size}`,
     showLoading: false
   })
 }

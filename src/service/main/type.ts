@@ -15,13 +15,6 @@ export interface MomentResult {
   images: string[]
 }
 
-export interface UserInfo {
-  id: number
-  name: string
-  avatar_url: string
-  momentCount: number
-}
-
 export interface MomentUserResult {
   id: number
   content: string
@@ -33,7 +26,7 @@ export interface MomentUserResult {
 }
 
 export interface MomentUserObject {
-  userInfo: UserInfo
+  momentUserCount: number
   momentUserList: MomentUserResult[]
 }
 

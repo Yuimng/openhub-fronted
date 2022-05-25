@@ -7,7 +7,8 @@ export const useMainStore = defineStore({
   id: 'main',
   state: (): IMainState => ({
     MomentList: [],
-    MomentUserList: []
+    MomentUserList: [],
+    MomentUserCount: 0
   }),
   getters: {},
   actions: {
@@ -41,6 +42,17 @@ export const useMainStore = defineStore({
         for (const item of tempArr) {
           this.MomentUserList.push(item)
         }
+      }
+    },
+    /**
+     *
+     * @description 获取个人动态数量
+     */
+    async getMomentUserCountAction(userId: number) {
+      // 获取数据
+      const result = await getMomentListByUserId(userId, 0, 0)
+      if (result.code == 200) {
+        this.MomentUserCount = result.data.momentUserCount
       }
     },
     clearList() {
