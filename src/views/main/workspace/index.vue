@@ -77,6 +77,8 @@ const HandleSubmitContent = async (content: string) => {
       postAreaRef.value?.clearContent()
       // 重载数据
       ReLoadList()
+      // 刷新用户动态数量
+      MainStore.getMomentUserCountAction(userId.value)
     } else {
       ElMessage({
         message: result.msg,

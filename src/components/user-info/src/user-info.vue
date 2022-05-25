@@ -18,7 +18,7 @@
         <div class="info-card__status">
           <a href="/main/workspace" class="info-card__status_a">
             <span class="info-card__status__moment">动态</span>
-            <span class="info-card__status__count">{{ momentCount }}</span>
+            <span class="info-card__status__count">{{ momentUserCount }}</span>
           </a>
         </div>
       </div>
@@ -29,11 +29,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useLoginStoreWithOut } from '@/store/login'
+import { useMainStoreWithOut } from '@/store/main'
 
-const userLoginStore = useLoginStoreWithOut()
-const avatar_url = computed(() => userLoginStore.userInfo.avatar_url)
-const username = computed(() => userLoginStore.userInfo.name)
-const momentCount = computed(() => userLoginStore.userInfo.momentCount)
+const LoginStore = useLoginStoreWithOut()
+const MainStore = useMainStoreWithOut()
+
+const avatar_url = computed(() => LoginStore.userInfo.avatar_url)
+const username = computed(() => LoginStore.userInfo.name)
+const momentUserCount = computed(() => MainStore.MomentUserCount)
 </script>
 
 <style lang="less" scoped>
