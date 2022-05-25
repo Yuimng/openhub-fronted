@@ -13,5 +13,4 @@ export interface IUserInfo {
   id: number
   name: string
   avatar_url: string | null
-  momentCount: number
 }

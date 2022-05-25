@@ -11,6 +11,7 @@ import localCache from '@/utils/cache'
 import router from '@/router'
 import 'element-plus/es/components/message/style/css'
 import { ElMessage } from 'element-plus'
+import { useMainStoreWithOut } from '@/store/main'
 
 export const useLoginStore = defineStore({
   id: 'login',
@@ -19,8 +20,7 @@ export const useLoginStore = defineStore({
     userInfo: {
       id: 0,
       name: '',
-      avatar_url: null,
-      momentCount: 0
+      avatar_url: null
     }
   }),
   getters: {},
@@ -43,6 +43,11 @@ export const useLoginStore = defineStore({
         const userInfo = userInfoResult.data
         this.userInfo = userInfo
         localCache.setCache('userInfo', userInfo)
+
+        // 2.获取个人发表动态数量
+        const MainStore = useMainStoreWithOut()
+        MainStore.getMomentUserCountAction(id)
+
         ElMessage({
           message: loginResult.msg,
           type: 'success'
