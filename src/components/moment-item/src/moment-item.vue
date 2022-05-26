@@ -34,24 +34,32 @@
         </el-space>
       </div>
       <div class="moment-item__footer">
-        <div class="comment-action">
+        <div class="comment-action" @click="openComment = !openComment">
           <ChatDotSquare class="comment-action__icon" />
           <span class="comment-action__count">{{ itemData.commentCount }}</span>
         </div>
       </div>
     </div>
+    <div v-if="openComment" class="comment-box">
+      <comment-box></comment-box>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import CommentBox from '@/components/comment-box'
 import { ChatDotSquare } from '@element-plus/icons-vue'
+import { ref } from 'vue'
 
 interface Props {
   itemData: any
 }
+
 withDefaults(defineProps<Props>(), {
   itemData: () => ({})
 })
+
+const openComment = ref(false)
 </script>
 
 <style lang="less" scoped>
