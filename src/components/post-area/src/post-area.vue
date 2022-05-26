@@ -13,7 +13,7 @@
       </el-form>
       <div class="post-action">
         <el-button class="post-btn" type="primary" @click="onSubmit">
-          发布
+          发布动态
         </el-button>
       </div>
     </div>
@@ -53,6 +53,9 @@ defineExpose({ clearContent })
   .post-action {
     display: flex;
     justify-content: right;
+    .post-btn {
+      padding: 0 16px;
+    }
   }
 }
 
