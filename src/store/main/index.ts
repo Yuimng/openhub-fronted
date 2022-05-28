@@ -1,14 +1,19 @@
 import { defineStore } from 'pinia'
 import { store } from '@/store'
 import { IMainState } from './type'
-import { getMomentList, getMomentListByUserId } from '@/service/main'
+import {
+  getMomentList,
+  getMomentListByUserId,
+  getMomentDetail
+} from '@/service/main'
 
 export const useMainStore = defineStore({
   id: 'main',
   state: (): IMainState => ({
     MomentList: [],
     MomentUserList: [],
-    MomentUserCount: 0
+    MomentUserCount: 0,
+    MomentDetailArray: []
   }),
   getters: {},
   actions: {
@@ -55,9 +60,28 @@ export const useMainStore = defineStore({
         this.MomentUserCount = result.data.momentUserCount
       }
     },
+    /**
+     *
+     * @description 清除动态数据
+     */
     clearList() {
       this.MomentList = []
       this.MomentUserList = []
+    },
+    /**
+     *
+     * @description 获取有评论的动态
+     */
+    async getMomentCommentAction(momentId: number) {
+      // 判断是否加载过
+      if (this.MomentDetailArray.find((item) => item.id == momentId)) return
+      // 无加载过获取数据
+      const result = await getMomentDetail(momentId)
+      if (result.code == 200) {
+        if (result.data.comments != null) {
+          this.MomentDetailArray.push(result.data)
+        }
+      }
     }
   }
 })

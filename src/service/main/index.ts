@@ -1,7 +1,7 @@
 import ymRequest from '../'
 import { IDataType } from '../type'
 
-import { MomentResult, MomentUserObject, IContent } from './type'
+import { MomentResult, MomentUserObject, IContent, MomentDetail } from './type'
 
 // offset 为 2n 的数
 export function getMomentList(offset: number, size: number) {
@@ -26,6 +26,13 @@ export function postMoment(content: IContent) {
   return ymRequest.post<IDataType>({
     url: '/moment',
     data: content,
+    showLoading: false
+  })
+}
+
+export function getMomentDetail(momentId: number) {
+  return ymRequest.get<IDataType<MomentDetail>>({
+    url: `/moment/${momentId}`,
     showLoading: false
   })
 }

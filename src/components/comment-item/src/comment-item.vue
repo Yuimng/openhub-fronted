@@ -5,22 +5,25 @@
         :size="48"
         class="header-avatar"
         :src="
-          itemData.author.avatar_url ??
+          itemData.user.avatar_url ??
           'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
         "
       ></el-avatar>
     </div>
     <div class="comment-item__header">
       <div class="comment-title">
-        <span class="comment-title__text">{{ itemData.author.name }}</span>
+        <span class="comment-title__text">{{ itemData.user.name }}</span>
       </div>
-      <div class="comment-time">{{ $relativeTime(itemData.updateTime) }}</div>
+      <div class="comment-time">{{ $relativeTime(itemData.createTime) }}</div>
     </div>
     <div class="comment-item__body">
       <div class="comment-content">
         {{ itemData.content }}
       </div>
     </div>
+  </div>
+  <div class="comment-divider">
+    <el-divider />
   </div>
 </template>
 
@@ -80,5 +83,9 @@ withDefaults(defineProps<Props>(), {
       word-break: break-word;
     }
   }
+}
+
+.comment-divider {
+  padding: 0 12px 0 88px;
 }
 </style>

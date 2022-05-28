@@ -33,3 +33,26 @@ export interface MomentUserObject {
 export interface IContent {
   content: string
 }
+
+export interface Label {
+  id: number
+  name: string
+}
+
+export interface Comment {
+  id: number
+  user: Author
+  content: string
+  createTime: string
+}
+
+export interface MomentDetail {
+  id: number
+  content: string
+  createTime: Date
+  updateTime: Date
+  author: Author
+  labels: Label[]
+  comments: Comment[]
+  images: string[]
+}
