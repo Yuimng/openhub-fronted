@@ -69,17 +69,36 @@ export const useMainStore = defineStore({
       this.MomentUserList = []
     },
     /**
-     *
      * @description 获取有评论的动态
+     * @param momentId 查询动态的id
+     * @param isPost 是否是发表评论后的数据刷新
      */
-    async getMomentCommentAction(momentId: number) {
-      // 判断是否加载过
-      if (this.MomentDetailArray.find((item) => item.id == momentId)) return
-      // 无加载过获取数据
-      const result = await getMomentDetail(momentId)
-      if (result.code == 200) {
-        if (result.data.comments != null) {
-          this.MomentDetailArray.push(result.data)
+    async getMomentCommentAction(momentId: number, isPost: boolean) {
+      // 获取是否已有对应的moments数据存在
+      const hasMomentIndex = this.MomentDetailArray.findIndex(
+        (item) => item.id == momentId
+      )
+      // 判断新增评论刷新
+      if (isPost) {
+        const result = await getMomentDetail(momentId)
+        if (result.code == 200) {
+          // 更新已存在动态的评论数据
+          if (hasMomentIndex != -1) {
+            this.MomentDetailArray[hasMomentIndex].comments =
+              result.data.comments
+          } else {
+            this.MomentDetailArray.push(result.data)
+          }
+        }
+      } else {
+        // 判断是否加载过
+        if (hasMomentIndex != -1) return
+        // 无加载过获取数据
+        const result = await getMomentDetail(momentId)
+        if (result.code == 200) {
+          if (result.data.comments != null) {
+            this.MomentDetailArray.push(result.data)
+          }
         }
       }
     }

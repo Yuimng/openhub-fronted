@@ -30,9 +30,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useMainStoreWithOut } from '@/store/main'
 import CommentItem from '@/components/comment-item'
+
+import { postComment } from '@/service/main'
+
+import 'element-plus/es/components/message/style/css'
+import { ElMessage } from 'element-plus'
 
 interface Props {
   momentId: number
@@ -45,35 +50,52 @@ const props = withDefaults(defineProps<Props>(), {
 // 加载获取有评论的动态数据
 const MainStore = useMainStoreWithOut()
 
-const doneFlag = MainStore.getMomentCommentAction(props.momentId)
-
 const commentListData = ref()
 
-doneFlag.then(() => {
-  // 在数据获取完毕之后再读取对应的评论数据
-  const momentDetailArray = MainStore.MomentDetailArray
-  commentListData.value = momentDetailArray.find(
-    (item) => item.id == props.momentId
-  )?.comments
-})
+const LoadCommentData = (isPost: boolean) => {
+  const doneFlag = MainStore.getMomentCommentAction(props.momentId, isPost)
 
-console.log(commentListData.value)
+  doneFlag.then(() => {
+    // 在数据获取完毕之后再读取对应的评论数据
+    const momentDetailArray = computed(() => MainStore.MomentDetailArray)
+    commentListData.value = momentDetailArray.value.find(
+      (item) => item.id == props.momentId
+    )?.comments
+  })
+}
 
+// 加载评论数据
+LoadCommentData(false)
+
+// 发表评论功能
 const form = reactive({
   content: ''
 })
 
-const emits = defineEmits(['submitContent'])
-
-const onSubmit = () => {
-  emits('submitContent', form.content)
+const onSubmit = async () => {
+  if (form.content.trim() != '') {
+    const result = await postComment({
+      momentId: props.momentId,
+      content: form.content
+    })
+    if (result.code == 200) {
+      // 清除文本
+      form.content = ''
+      // 重新载入评论数据
+      LoadCommentData(true)
+    } else {
+      ElMessage({
+        message: result.msg,
+        type: 'error'
+      })
+    }
+  } else {
+    ElMessage({
+      message: '(～￣▽￣)～内容不能为空喔',
+      type: 'error'
+    })
+  }
 }
-
-const clearContent = () => {
-  form.content = ''
-}
-
-defineExpose({ clearContent })
 </script>
 
 <style lang="less" scoped>

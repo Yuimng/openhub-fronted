@@ -30,7 +30,12 @@ export interface MomentUserObject {
   momentUserList: MomentUserResult[]
 }
 
-export interface IContent {
+export interface MomentContent {
+  content: string
+}
+
+export interface CommentContent {
+  momentId: number
   content: string
 }
 
