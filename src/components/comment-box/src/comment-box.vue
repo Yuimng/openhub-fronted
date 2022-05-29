@@ -3,7 +3,7 @@
     <div class="comment-header">
       <span class="comment-header_content">评论区</span>
     </div>
-    <div class="comment-area">
+    <div v-if="props.isDiscover" class="comment-area">
       <el-form :model="form" class="comment-text">
         <el-form-item>
           <el-input
@@ -40,10 +40,12 @@ import 'element-plus/es/components/message/style/css'
 import { ElMessage } from 'element-plus'
 
 interface Props {
+  isDiscover: boolean
   momentId: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  isDiscover: true,
   momentId: 0
 })
 

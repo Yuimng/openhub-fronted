@@ -41,7 +41,7 @@
       </div>
     </div>
     <div v-if="openComment" class="comment-box">
-      <comment-box :moment-id="itemData.id"></comment-box>
+      <comment-box :moment-id="itemData.id" :is-discover="true"></comment-box>
     </div>
   </div>
 </template>

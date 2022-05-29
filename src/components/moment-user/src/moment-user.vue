@@ -40,7 +40,9 @@
         </div>
       </div>
     </div>
-    <div v-if="openComment" class="comment-box">评论区</div>
+    <div v-if="openComment" class="comment-box">
+      <comment-box :moment-id="itemData.id" :is-discover="false"></comment-box>
+    </div>
   </div>
 </template>
 
