@@ -113,5 +113,6 @@ const handleExitClick = () => {
 .el-menu--horizontal .el-menu-item:not(.is-disabled):focus,
 .el-menu--horizontal .el-menu-item:not(.is-disabled):hover {
   background-color: #fff;
+  color: #303133;
 }
 </style>
