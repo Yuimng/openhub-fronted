@@ -43,6 +43,13 @@ export function getMomentDetail(momentId: number) {
   })
 }
 
+export function deleteMoment(momentId: number) {
+  return ymRequest.delete<IDataType>({
+    url: `/moment/${momentId}`,
+    showLoading: false
+  })
+}
+
 export function postComment(data: CommentContent) {
   return ymRequest.post<IDataType>({
     url: '/comment',

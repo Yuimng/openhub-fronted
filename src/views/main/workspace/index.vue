@@ -15,7 +15,7 @@
       :key="item.id"
       class="infinite-list-item"
     >
-      <moment-user :item-data="item"></moment-user>
+      <moment-user :item-data="item" @reload-list="ReLoadList"></moment-user>
     </li>
     <div v-if="isNoData" class="data-tip">已经没有数据了喔/(ㄒoㄒ)/~~</div>
     <div v-if="!isNoData" class="data-tip">向下加载数据</div>

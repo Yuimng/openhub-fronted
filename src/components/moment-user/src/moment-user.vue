@@ -14,6 +14,16 @@
       <div class="moment-user__header">
         <div class="moment-title">
           <span class="moment-title__text">{{ LoginStore.userInfo.name }}</span>
+          <el-dropdown trigger="click">
+            <MoreFilled class="moment-title__action" />
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <span @click="handleDeleteMoment(itemData.id)">删除</span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
         <div class="moment-time">{{ $relativeTime(itemData.updateTime) }}</div>
       </div>
@@ -47,10 +57,16 @@
 </template>
 
 <script setup lang="ts">
-import { ChatDotSquare } from '@element-plus/icons-vue'
+import { ChatDotSquare, MoreFilled } from '@element-plus/icons-vue'
+import CommentBox from '@/components/comment-box'
 import { ref } from 'vue'
 
+import 'element-plus/es/components/message/style/css'
+import 'element-plus/es/components/message-box/style/css'
+import { ElMessage, ElMessageBox } from 'element-plus'
+
 import { useLoginStoreWithOut } from '@/store/login'
+import { deleteMoment } from '@/service/main'
 
 const LoginStore = useLoginStoreWithOut()
 
@@ -63,6 +79,31 @@ withDefaults(defineProps<Props>(), {
 })
 
 const openComment = ref(false)
+
+// 删除动态
+const emits = defineEmits(['reloadList'])
+
+const handleDeleteMoment = (momentId: number) => {
+  ElMessageBox.confirm('确认删除这条动态吗?', '删除动态', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+    .then(async () => {
+      const result = await deleteMoment(momentId)
+      if (result.code == 200) {
+        ElMessage({
+          type: 'success',
+          message: result.msg
+        })
+        // 重载数据
+        emits('reloadList')
+      }
+    })
+    .catch(() => {
+      return
+    })
+}
 </script>
 
 <style lang="less" scoped>
@@ -88,8 +129,18 @@ const openComment = ref(false)
       height: 24px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       .moment-title__text {
         font-weight: 600;
+      }
+      .moment-title__action {
+        width: 16px;
+        height: 16px;
+        color: #99a2aa;
+        &:hover {
+          cursor: pointer;
+          color: #409eff;
+        }
       }
     }
     .moment-time {
