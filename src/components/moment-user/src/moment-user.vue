@@ -44,7 +44,7 @@
         </el-space>
       </div>
       <div class="moment-user__footer">
-        <div class="comment-action" @click="openComment = !openComment">
+        <div class="comment-action" @click="handleOpenComment">
           <ChatDotSquare class="comment-action__icon" />
           <span class="comment-action__count">{{ itemData.commentCount }}</span>
         </div>
@@ -74,11 +74,19 @@ interface Props {
   itemData: any
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   itemData: () => ({})
 })
 
 const openComment = ref(false)
+
+const handleOpenComment = () => {
+  if (props.itemData.commentCount == 0) {
+    openComment.value = false
+  } else {
+    openComment.value = !openComment.value
+  }
+}
 
 // 删除动态
 const emits = defineEmits(['reloadList'])
