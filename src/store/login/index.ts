@@ -39,10 +39,7 @@ export const useLoginStore = defineStore({
         localCache.setCache('token', token)
 
         // 2.请求用户信息
-        const userInfoResult = await requestUserInfoById(id)
-        const userInfo = userInfoResult.data
-        this.userInfo = userInfo
-        localCache.setCache('userInfo', userInfo)
+        this.getUserInfoAction(id)
 
         // 2.获取个人发表动态数量
         const MainStore = useMainStoreWithOut()
@@ -60,6 +57,16 @@ export const useLoginStore = defineStore({
           type: 'error'
         })
       }
+    },
+    /**
+     *
+     * @description 获取用户信息
+     */
+    async getUserInfoAction(userId: number) {
+      const userInfoResult = await requestUserInfoById(userId)
+      const userInfo = userInfoResult.data
+      this.userInfo = userInfo
+      localCache.setCache('userInfo', userInfo)
     },
     /**
      *

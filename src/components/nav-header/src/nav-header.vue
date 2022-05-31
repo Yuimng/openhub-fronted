@@ -27,14 +27,37 @@
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item
-              ><span @click="handleExitClick">退出登录</span></el-dropdown-item
-            >
+            <el-dropdown-item>
+              <span @click="dialogVisible = true">上传头像</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <span @click="handleExitClick">退出登录</span>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
     </div>
   </div>
+  <el-dialog
+    v-model="dialogVisible"
+    title="上传头像"
+    width="300px"
+    destroy-on-close
+    center
+  >
+    <upload-avatar
+      ref="uploadAvatarRef"
+      @upload-success="handleUploadSuccess"
+    ></upload-avatar>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleUpload">确认</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -42,9 +65,11 @@ import localCache from '@/utils/cache'
 import { useRouter, useRoute } from 'vue-router'
 import { computed, ref } from 'vue'
 import { useLoginStoreWithOut } from '@/store/login'
+import UploadAvatar from '@/components/upload-avatar'
+import { ElMessage } from 'element-plus'
 
-const userLoginStore = useLoginStoreWithOut()
-const avatar_url = computed(() => userLoginStore.userInfo.avatar_url)
+const LoginStore = useLoginStoreWithOut()
+const avatar_url = computed(() => LoginStore.userInfo.avatar_url)
 
 const router = useRouter()
 
@@ -55,6 +80,21 @@ const defaultValue = ref(currentPath)
 const handleExitClick = () => {
   localCache.deleteCache('token')
   router.push('/login')
+}
+
+const dialogVisible = ref(false)
+
+const uploadAvatarRef = ref<InstanceType<typeof UploadAvatar>>()
+
+const handleUpload = () => {
+  uploadAvatarRef.value?.submitUpload()
+}
+
+const handleUploadSuccess = async () => {
+  const userInfo = localCache.getCache('userInfo')
+  await LoginStore.getUserInfoAction(userInfo.id)
+  dialogVisible.value = false
+  ElMessage.success('上传头像成功')
 }
 </script>
 

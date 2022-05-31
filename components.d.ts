@@ -16,6 +16,7 @@ declare module '@vue/runtime-core' {
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
@@ -23,6 +24,7 @@ declare module '@vue/runtime-core' {
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElLink: typeof import('element-plus/es')['ElLink']
@@ -30,6 +32,7 @@ declare module '@vue/runtime-core' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElSpace: typeof import('element-plus/es')['ElSpace']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     InfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
     MomentItem: typeof import('./src/components/moment-item/src/moment-item.vue')['default']
     MomentUser: typeof import('./src/components/moment-user/src/moment-user.vue')['default']
@@ -37,6 +40,7 @@ declare module '@vue/runtime-core' {
     PostArea: typeof import('./src/components/post-area/src/post-area.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UploadAvatar: typeof import('./src/components/upload-avatar/src/upload-avatar.vue')['default']
     UserInfo: typeof import('./src/components/user-info/src/user-info.vue')['default']
   }
 }
