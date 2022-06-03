@@ -29,7 +29,7 @@ import MomentUser from '@/components/moment-user'
 import { useLoginStoreWithOut } from '@/store/login'
 import { useMainStoreWithOut } from '@/store/main'
 
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, provide } from 'vue'
 import { postMoment } from '@/service/main'
 
 import 'element-plus/es/components/message/style/css'
@@ -68,6 +68,10 @@ const ReLoadList = () => {
   MainStore.clearList()
   loadData()
 }
+
+// 爷孙级提供刷新函数
+provide('ReLoadList', ReLoadList)
+
 const postAreaRef = ref<InstanceType<typeof PostArea>>()
 // 发布动态功能
 const HandleSubmitContent = async (content: string) => {

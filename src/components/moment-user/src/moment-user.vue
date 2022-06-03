@@ -14,14 +14,15 @@
       <div class="moment-user__header">
         <div class="moment-title">
           <span class="moment-title__text">{{ LoginStore.userInfo.name }}</span>
-          <el-dropdown trigger="click">
+          <el-dropdown trigger="click" placement="bottom-end">
             <MoreFilled class="moment-title__action" />
             <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>
-                  <span @click="handleDeleteMoment(itemData.id)">删除</span>
-                </el-dropdown-item>
-              </el-dropdown-menu>
+              <div
+                class="delete-dropdown"
+                @click="handleDeleteMoment(itemData.id)"
+              >
+                删除
+              </div>
             </template>
           </el-dropdown>
         </div>
@@ -44,9 +45,28 @@
         </el-space>
       </div>
       <div class="moment-user__footer">
-        <div class="comment-action" @click="handleOpenComment">
-          <ChatDotSquare class="comment-action__icon" />
-          <span class="comment-action__count">{{ itemData.commentCount }}</span>
+        <el-dropdown trigger="click" placement="bottom-start">
+          <div class="action-box">
+            <Picture class="action__icon" />
+            <span class="action__count">
+              {{ itemData.images != null ? itemData.images.length : 0 }}
+            </span>
+          </div>
+          <template #dropdown>
+            <div class="upload-dropdown">
+              <upload-images
+                :moment-id="itemData.id"
+                :picture-count="
+                  itemData.images != null ? itemData.images.length : 0
+                "
+              ></upload-images>
+            </div>
+          </template>
+        </el-dropdown>
+
+        <div class="action-box" @click="handleOpenComment">
+          <ChatDotSquare class="action__icon" />
+          <span class="action__count">{{ itemData.commentCount }}</span>
         </div>
       </div>
     </div>
@@ -57,8 +77,9 @@
 </template>
 
 <script setup lang="ts">
-import { ChatDotSquare, MoreFilled } from '@element-plus/icons-vue'
+import { ChatDotSquare, MoreFilled, Picture } from '@element-plus/icons-vue'
 import CommentBox from '@/components/comment-box'
+import UploadImages from '@/components/upload-images'
 import { ref } from 'vue'
 
 import 'element-plus/es/components/message/style/css'
@@ -117,6 +138,20 @@ const handleDeleteMoment = (momentId: number) => {
 <style lang="less" scoped>
 .my-mb-10 {
   margin-bottom: 10px;
+}
+
+.delete-dropdown {
+  width: 54px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 13px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.upload-dropdown {
+  padding-left: 8px;
+  padding-bottom: 8px;
 }
 
 .moment-user__main {
@@ -182,8 +217,9 @@ const handleDeleteMoment = (momentId: number) => {
     height: 28px;
     margin: 8px 0;
     display: flex;
-    flex-direction: row-reverse;
-    .comment-action {
+    justify-content: space-between;
+    .action-box {
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -192,12 +228,12 @@ const handleDeleteMoment = (momentId: number) => {
       color: #b1b3b8;
       background-color: #f4f4f5;
       cursor: pointer;
-      .comment-action__icon {
+      .action__icon {
         width: 16px;
         height: 16px;
         font-weight: 600;
       }
-      .comment-action__count {
+      .action__count {
         padding-left: 8px;
       }
     }
