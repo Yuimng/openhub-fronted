@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "build_simple": "vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext .ts,.tsx,.vue",
     "lint:fix": "eslint src --fix --ext .ts,.tsx,.vue",
