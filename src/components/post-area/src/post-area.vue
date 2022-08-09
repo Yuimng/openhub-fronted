@@ -48,8 +48,9 @@
 <script setup lang="ts">
 import { Picture, CloseBold } from '@element-plus/icons-vue'
 
-import { ElMessageBox, ElMessage } from 'element-plus'
 import 'element-plus/es/components/message/style/css'
+import 'element-plus/es/components/message-box/style/css'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 import UploadImages from '@/components/upload-images'
 import { reactive, ref, watch } from 'vue'
