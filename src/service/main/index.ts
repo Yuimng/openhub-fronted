@@ -1,4 +1,4 @@
-import ymRequest from '../'
+import { ymFormRequest, ymRequest } from '../'
 import { IDataType } from '../type'
 
 import {
@@ -53,6 +53,14 @@ export function deleteMoment(momentId: number) {
 export function postComment(data: CommentContent) {
   return ymRequest.post<IDataType>({
     url: '/comment',
+    data: data,
+    showLoading: false
+  })
+}
+
+export function postMomentWithPic(data: FormData) {
+  return ymFormRequest.request<IDataType>({
+    url: '/upload/moment',
     data: data,
     showLoading: false
   })

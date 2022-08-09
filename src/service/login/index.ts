@@ -1,4 +1,4 @@
-import ymRequest from '../'
+import { ymRequest } from '../'
 import { IDataType } from '../type'
 import { IAccount, ILoginResult, IUserInfo } from './type'
 

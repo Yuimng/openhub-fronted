@@ -34,4 +34,38 @@ const ymRequest = new YMRequest({
   }
 })
 
-export default ymRequest
+const ymFormRequest = new YMRequest({
+  baseURL: BASE_URL,
+  timeout: TIME_OUT,
+  method: 'POST',
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  },
+  interceptors: {
+    requestInterceptor: (config) => {
+      // 携带 token 的拦截
+      const token = localCache.getCache('token')
+      // config.headers.Authorization = `Bearer ${token}` 无法识别Authorization
+      if (token) {
+        config.headers = {
+          Authorization: `Bearer ${token}`
+        }
+      }
+      return config
+    },
+    requestInterceptorCatch: (err) => {
+      // console.log('请求失败的拦截')
+      return err
+    },
+    responseInterceptor: (res) => {
+      // console.log('响应成功的拦截')
+      return res
+    },
+    responseInterceptorCatch: (err) => {
+      // console.log('响应失败的拦截')
+      return err
+    }
+  }
+})
+
+export { ymRequest, ymFormRequest }
