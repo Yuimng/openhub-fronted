@@ -12,7 +12,7 @@
         class="custom-memu"
       >
         <el-menu-item index="/main/discover">发现</el-menu-item>
-        <el-menu-item index="/main/workspace">工作台</el-menu-item>
+        <el-menu-item index="/main/workspace">我的</el-menu-item>
       </el-menu>
     </div>
     <div class="nav-header-right">

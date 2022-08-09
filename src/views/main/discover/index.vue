@@ -1,4 +1,5 @@
 <template>
+  <post-area @after-post="ReLoadList"></post-area>
   <ul
     v-infinite-scroll="loadData"
     infinite-scroll-delay="500"
@@ -18,6 +19,7 @@
 import MomentItem from '@/components/moment-item'
 import { useMainStoreWithOut } from '@/store/main'
 import { ref, computed, watch } from 'vue'
+import PostArea from '@/components/post-area'
 
 const MainStore = useMainStoreWithOut()
 
@@ -45,6 +47,14 @@ loadData()
 watch(ChangeLength, (nval, oldval) => {
   isNoData.value = nval == oldval ? true : false
 })
+
+// 重载数据
+const ReLoadList = () => {
+  count.value = 0
+  isNoData.value = false
+  MainStore.clearList()
+  loadData()
+}
 </script>
 
 <style lang="less" scoped>

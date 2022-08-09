@@ -1,28 +1,11 @@
 <template>
   <div class="upload-images">
-    <div class="upload-images_header">
-      <div class="upload-title">动态配图</div>
-      <el-button
-        text
-        type="primary"
-        class="upload-btn"
-        :disabled="props.pictureCount >= 9 ? true : false"
-        @click="submitUpload"
-      >
-        上传图片
-      </el-button>
-    </div>
     <el-upload
-      ref="uploadImagesRef"
-      :action="uploadImagesUrl"
+      action="#"
       list-type="picture-card"
-      :headers="headersConfig"
       name="picture"
       :before-upload="beforeUpload"
       :on-change="handleChange"
-      :on-remove="handleRemove"
-      :on-success="handleSuccess"
-      :on-preview="handlePictureCardPreview"
       :file-list="fileList"
       :auto-upload="false"
       :disabled="isDisabled"
@@ -33,14 +16,8 @@
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
           <span class="el-upload-list__item-actions">
             <span
-              class="el-upload-list__item-preview"
-              @click="handlePictureCardPreview(file)"
-            >
-              <el-icon><zoom-in /></el-icon>
-            </span>
-            <span
               class="el-upload-list__item-delete"
-              @click="handleRemove(file, uploadFiles)"
+              @click="singleRemove(file, uploadFiles)"
             >
               <el-icon><Delete /></el-icon>
             </span>
@@ -48,59 +25,21 @@
         </div>
       </template>
     </el-upload>
-    <div v-if="isDisabled" class="upload-images_footer">
-      已满 9 张图，不可继续添加图片
-    </div>
   </div>
-
-  <el-dialog v-model="dialogVisible">
-    <img style="width: 100%" :src="dialogImageUrl" alt="Preview Image" />
-  </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import type { UploadProps, UploadUserFile, UploadInstance } from 'element-plus'
-import { Delete, Plus, ZoomIn } from '@element-plus/icons-vue'
+import type { UploadProps, UploadUserFile } from 'element-plus'
+import { Delete, Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
-import { inject, ref } from 'vue'
+import { ref } from 'vue'
 
-import localCache from '@/utils/cache'
-
-const dialogImageUrl = ref('')
-const dialogVisible = ref(false)
 const isDisabled = ref(false)
-
-interface Props {
-  momentId: number
-  pictureCount: number
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  momentId: 0,
-  pictureCount: 0
-})
-
-// 判定9图
-if (props.pictureCount >= 9) {
-  isDisabled.value = true
-}
-
-// 1.设置上传请求头
-const headersConfig = ref()
-const token = localCache.getCache('token')
-if (token) {
-  headersConfig.value = {
-    Authorization: `Bearer ${token}`
-  }
-}
-
-// 2.上传路径
-const uploadImagesUrl = `/api/upload/picture?momentId=${props.momentId}`
 
 const fileList = ref<UploadUserFile[]>([])
 
-// 3. 上传前文件类型和大小处理
+// 1. 上传前文件类型和大小处理
 const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   const isImage =
     rawFile.type == 'image/png' ||
@@ -118,7 +57,7 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   return true
 }
 
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+const singleRemove: UploadProps['onRemove'] = (uploadFile) => {
   const delIndex = fileList.value.findIndex(
     (item) => item.url == uploadFile.url
   )
@@ -126,59 +65,25 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
   isDisabled.value = false
 }
 
+const emits = defineEmits(['submitFiles'])
+
 const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
-  if (uploadFiles.length >= 9 - props.pictureCount) {
+  if (uploadFiles.length == 9) {
     isDisabled.value = true
   }
+  // 回传文件数据
+  emits('submitFiles', uploadFiles)
 }
 
-const uploadImagesRef = ref<UploadInstance>()
-
-// 4. 提交上传 弹窗确认触发
-const submitUpload = () => {
-  if (fileList.value.length == 0) {
-    ElMessage.error('请先选择要上传的图片!')
-  } else {
-    uploadImagesRef.value!.submit()
-  }
+const removeAll = () => {
+  fileList.value = []
+  isDisabled.value = false
 }
 
-// 爷孙级传递
-const ReLoadList: any = inject('ReLoadList')
-
-// 5. 上传提交结果处理
-const handleSuccess: UploadProps['onSuccess'] = (response) => {
-  if (response.code == 200) {
-    ElMessage.success('上传成功!')
-    // 刷新页面
-    ReLoadList()
-  } else {
-    ElMessage.error('上传失败！')
-  }
-}
-
-// 查看图
-const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
-  dialogImageUrl.value = uploadFile.url!
-  dialogVisible.value = true
-}
+defineExpose({ removeAll })
 </script>
 
 <style lang="less" scoped>
-.upload-images {
-  width: 324px;
-  font-size: 14px;
-  .upload-images_header {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;
-    .upload-title {
-      height: 32px;
-      line-height: 32px;
-    }
-  }
-}
-
 :deep(.el-upload-list--picture-card) {
   --el-upload-list-picture-card-size: 100px;
 }
@@ -196,5 +101,9 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
   width: 100px;
   height: 100px;
   object-fit: cover;
+}
+
+:deep(.is-disabled .el-upload--picture-card) {
+  display: none;
 }
 </style>

@@ -1,8 +1,4 @@
 <template>
-  <post-area
-    ref="postAreaRef"
-    @submit-content="HandleSubmitContent"
-  ></post-area>
   <ul
     v-infinite-scroll="loadData"
     infinite-scroll-delay="500"
@@ -10,30 +6,37 @@
     infinite-scroll-immediate="false"
     class="infinite-list"
   >
-    <li
-      v-for="item in MomentUserList"
-      :key="item.id"
-      class="infinite-list-item"
-    >
-      <moment-user :item-data="item" @reload-list="ReLoadList"></moment-user>
-    </li>
-    <div v-if="isNoData" class="data-tip">已经没有数据了喔/(ㄒoㄒ)/~~</div>
-    <div v-if="!isNoData" class="data-tip">向下加载数据</div>
+    <template v-if="ChangeLength == 0">
+      <li>
+        <div class="custom-card">
+          <el-empty
+            :image-size="82"
+            description="还没有发过动态哦~ 快去发表你的第一条动态吧~"
+          />
+        </div>
+      </li>
+    </template>
+    <template v-else>
+      <li
+        v-for="item in MomentUserList"
+        :key="item.id"
+        class="infinite-list-item"
+      >
+        <moment-user :item-data="item" @reload-list="ReLoadList"></moment-user>
+      </li>
+      <div v-if="isNoData" class="data-tip">已经没有数据了喔/(ㄒoㄒ)/~~</div>
+      <div v-if="!isNoData" class="data-tip">向下加载数据</div>
+    </template>
   </ul>
 </template>
 
 <script setup lang="ts">
-import PostArea from '@/components/post-area'
 import MomentUser from '@/components/moment-user'
 
 import { useLoginStoreWithOut } from '@/store/login'
 import { useMainStoreWithOut } from '@/store/main'
 
-import { ref, computed, watch, provide } from 'vue'
-import { postMoment } from '@/service/main'
-
-import 'element-plus/es/components/message/style/css'
-import { ElMessage } from 'element-plus'
+import { ref, computed, watch } from 'vue'
 
 const LoginStore = useLoginStoreWithOut()
 const MainStore = useMainStoreWithOut()
@@ -67,34 +70,6 @@ const ReLoadList = () => {
   isNoData.value = false
   MainStore.clearList()
   loadData()
-}
-
-// 爷孙级提供刷新函数
-provide('ReLoadList', ReLoadList)
-
-const postAreaRef = ref<InstanceType<typeof PostArea>>()
-// 发布动态功能
-const HandleSubmitContent = async (content: string) => {
-  if (content.trim() != '') {
-    const result = await postMoment({ content: content })
-    if (result.code == 200) {
-      postAreaRef.value?.clearContent()
-      // 重载数据
-      ReLoadList()
-      // 刷新用户动态数量
-      MainStore.getMomentUserCountAction(userId.value)
-    } else {
-      ElMessage({
-        message: result.msg,
-        type: 'error'
-      })
-    }
-  } else {
-    ElMessage({
-      message: '(～￣▽￣)～内容不能为空喔',
-      type: 'error'
-    })
-  }
 }
 </script>
 

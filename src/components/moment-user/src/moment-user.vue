@@ -45,25 +45,6 @@
         </el-space>
       </div>
       <div class="moment-user__footer">
-        <el-dropdown trigger="click" placement="bottom-start">
-          <div class="action-box">
-            <Picture class="action__icon" />
-            <span class="action__count">
-              {{ itemData.images != null ? itemData.images.length : 0 }}
-            </span>
-          </div>
-          <template #dropdown>
-            <div class="upload-dropdown">
-              <upload-images
-                :moment-id="itemData.id"
-                :picture-count="
-                  itemData.images != null ? itemData.images.length : 0
-                "
-              ></upload-images>
-            </div>
-          </template>
-        </el-dropdown>
-
         <div class="action-box" @click="handleOpenComment">
           <ChatDotSquare class="action__icon" />
           <span class="action__count">{{ itemData.commentCount }}</span>
@@ -77,9 +58,8 @@
 </template>
 
 <script setup lang="ts">
-import { ChatDotSquare, MoreFilled, Picture } from '@element-plus/icons-vue'
+import { ChatDotSquare, MoreFilled } from '@element-plus/icons-vue'
 import CommentBox from '@/components/comment-box'
-import UploadImages from '@/components/upload-images'
 import { ref } from 'vue'
 
 import 'element-plus/es/components/message/style/css'
@@ -217,7 +197,8 @@ const handleDeleteMoment = (momentId: number) => {
     height: 28px;
     margin: 8px 0;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
+    flex-direction: row-reverse;
     .action-box {
       height: 100%;
       display: flex;
