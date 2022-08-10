@@ -36,10 +36,11 @@
           <div v-for="i in itemData.images" :key="i">
             <el-image
               style="width: 100px; height: 100px"
-              :src="i"
+              :src="i + '?type=small'"
               :preview-src-list="itemData.images"
               :initial-index="1"
               fit="cover"
+              lazy
             />
           </div>
         </el-space>

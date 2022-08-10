@@ -9,6 +9,7 @@
             itemData.author.avatar_url ??
             'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
           "
+          lazy
         ></el-avatar>
       </div>
       <div class="moment-item__header">
@@ -25,10 +26,11 @@
           <div v-for="i in itemData.images" :key="i">
             <el-image
               style="width: 100px; height: 100px"
-              :src="i"
+              :src="i + '?type=small'"
               :preview-src-list="itemData.images"
               :initial-index="1"
               fit="cover"
+              lazy
             />
           </div>
         </el-space>
