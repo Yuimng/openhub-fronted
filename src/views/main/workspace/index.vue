@@ -4,6 +4,7 @@
     infinite-scroll-delay="500"
     :infinite-scroll-disabled="isNoData"
     infinite-scroll-immediate="false"
+    infinite-scroll-distance="300"
     class="infinite-list"
   >
     <template v-if="ChangeLength == 0">
@@ -24,8 +25,8 @@
       >
         <moment-user :item-data="item" @reload-list="ReLoadList"></moment-user>
       </li>
-      <div v-if="isNoData" class="data-tip">已经没有数据了喔/(ㄒoㄒ)/~~</div>
-      <div v-if="!isNoData" class="data-tip">向下加载数据</div>
+      <li v-if="isNoData" class="data-tip">已经没有数据了喔/(ㄒoㄒ)/~~</li>
+      <li v-if="!isNoData" class="data-tip">向下加载数据</li>
     </template>
   </ul>
 </template>
