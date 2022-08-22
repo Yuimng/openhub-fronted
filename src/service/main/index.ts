@@ -62,6 +62,6 @@ export function postMomentWithPic(data: FormData) {
   return ymFormRequest.request<IDataType>({
     url: '/upload/moment',
     data: data,
-    showLoading: false
+    showLoading: true
   })
 }

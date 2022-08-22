@@ -39,7 +39,7 @@ class YMRequest {
         if (this.showLoading) {
           this.loading = ElLoading.service({
             lock: true,
-            text: '正在请求数据...',
+            text: '请求中...',
             background: 'rgba(0, 0, 0, 0.5)'
           })
         }
