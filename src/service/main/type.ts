@@ -15,6 +15,11 @@ export interface MomentResult {
   images: string[]
 }
 
+export interface MomentObject {
+  momentCount: number
+  momentList: MomentResult[]
+}
+
 export interface MomentUserResult {
   id: number
   content: string

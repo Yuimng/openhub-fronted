@@ -25,7 +25,7 @@ export const useMainStore = defineStore({
       // 获取数据
       const result = await getMomentList(offset, size)
       if (result.code == 200) {
-        const tempArr = result.data
+        const tempArr = result.data.momentList
         for (const item of tempArr) {
           this.MomentList.push(item)
         }

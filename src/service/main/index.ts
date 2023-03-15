@@ -6,12 +6,13 @@ import {
   MomentUserObject,
   MomentContent,
   MomentDetail,
-  CommentContent
+  CommentContent,
+  MomentObject
 } from './type'
 
 // offset 为 2n 的数
 export function getMomentList(offset: number, size: number) {
-  return ymRequest.get<IDataType<Array<MomentResult>>>({
+  return ymRequest.get<IDataType<MomentObject>>({
     url: `/moment?offset=${offset}&size=${size}`,
     showLoading: false
   })
